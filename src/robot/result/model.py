@@ -195,7 +195,7 @@ class TestSuite(model.TestSuite):
     @property
     def passed(self):
         """``True`` if no critical test has failed, ``False`` otherwise."""
-        return not self.statistics.critical.failed
+        return not self.statistics.all.failed
 
     @property
     def status(self):

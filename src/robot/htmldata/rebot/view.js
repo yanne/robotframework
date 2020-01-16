@@ -174,11 +174,6 @@ $.template('statColumnsTemplate',
 );
 
 $.template('suiteStatusMessageTemplate',
-    '${critical} critical {{= testOrTask("{test}")}}, ' +
-    '${criticalPassed} passed, ' +
-    '<span class="{{if criticalFailed}}fail{{else}}pass{{/if}}">${criticalFailed} failed</span>' +
-    '{{if skipped}}, <span class="skipped">${skipped} skipped</span>{{/if}}' +
-    '<br>' +
     '${total} {{= testOrTask("{test}")}} total, ' +
     '${totalPassed} passed, ' +
     '<span class="{{if totalFailed}}fail{{else}}pass{{/if}}">${totalFailed} failed</span>' +
