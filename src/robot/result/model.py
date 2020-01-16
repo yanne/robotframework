@@ -136,7 +136,7 @@ class TestCase(model.TestCase):
 
     @property
     def status(self):
-        return self._status if 'skipped' not in self.tags else 'SKIP'
+        return self._status
 
     @status.setter
     def status(self, status):
@@ -154,11 +154,7 @@ class TestCase(model.TestCase):
 
     @property
     def skipped(self):
-        return 'skipped' in self.tags
-
-    @passed.setter
-    def passed(self, passed):
-        self._status = 'PASS' if passed else ('FAIL' if not self.skipped else 'SKIP')
+        return self.status == 'SKIP'
 
     @property
     def critical(self):

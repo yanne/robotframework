@@ -145,6 +145,12 @@ class TestStatus(_ExecutionStatus):
     def _my_message(self):
         return TestMessage(self).message
 
+    @property
+    def status(self):
+        if self.failures and not self._critical:
+            return 'SKIP'
+        return 'FAIL' if self.failures else 'PASS'
+
 
 class _Message(object):
     setup_message = NotImplemented
