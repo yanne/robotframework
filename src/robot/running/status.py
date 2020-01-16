@@ -165,11 +165,13 @@ class TestStatus(_ExecutionStatus):
 
 class _Message(object):
     setup_message = NotImplemented
+    setup_skipped = NotImplemented
     teardown_message = NotImplemented
     also_teardown_message = NotImplemented
 
     def __init__(self, status):
         self.failure = status.failure
+        self.skipped = status.skipped
 
     @property
     def message(self):
@@ -178,7 +180,8 @@ class _Message(object):
 
     def _get_message_before_teardown(self):
         if self.failure.setup:
-            return self._format_setup_or_teardown_message(self.setup_message,
+            msg = self.setup_message if not self.skipped else self.setup_skipped
+            return self._format_setup_or_teardown_message(msg,
                                                           self.failure.setup)
         return self.failure.test or ''
 
@@ -236,12 +239,14 @@ class TestMessage(_Message):
 
 class SuiteMessage(_Message):
     setup_message = 'Suite setup failed:\n%s'
+    setup_skipped = 'Suite setup skipped:\n%s'
     teardown_message = 'Suite teardown failed:\n%s'
     also_teardown_message = '%s\n\nAlso suite teardown failed:\n%s'
 
 
 class ParentMessage(SuiteMessage):
     setup_message = 'Parent suite setup failed:\n%s'
+    setup_skipped = 'Parent suite setup skipped\n%s'
     teardown_message = 'Parent suite teardown failed:\n%s'
     also_teardown_message = '%s\n\nAlso parent suite teardown failed:\n%s'
 
