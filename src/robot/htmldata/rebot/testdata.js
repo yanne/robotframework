@@ -158,7 +158,6 @@ window.testdata = function () {
     }
 
     function suiteStats(stats) {
-        console.log(stats)
         return {
             total: stats[0],
             totalPassed: stats[1],

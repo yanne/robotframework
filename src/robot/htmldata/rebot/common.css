@@ -191,7 +191,7 @@ th.stats-col-graph:hover {
     width: auto;
     height: 7px;
     padding: 0;
-    background: #f33;
+    background: #aaa;
 }
 .empty-graph {
     background: #eee;
@@ -199,6 +199,9 @@ th.stats-col-graph:hover {
 .pass-bar, .fail-bar {
     float: left;
     height: 100%;
+}
+.fail-bar {
+    background: #f33;
 }
 .pass-bar {
     background: #1d4;
