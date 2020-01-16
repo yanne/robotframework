@@ -66,6 +66,7 @@ class _ExecutionStatus(object):
         self.children = []
         self.failure = Failure()
         self.exit = parent.exit if parent else Exit(*exit_modes)
+        self.skipped = False
         self._teardown_allowed = False
         if parent:
             parent.children.append(self)
@@ -74,6 +75,7 @@ class _ExecutionStatus(object):
         if failure and not isinstance(failure, PassExecution):
             self.failure.setup = unic(failure)
             self.exit.failure_occurred(failure)
+            self.skipped = isinstance(failure, SkipExecution)
         self._teardown_allowed = True
 
     def teardown_executed(self, failure=None):
@@ -126,9 +128,16 @@ class SuiteStatus(_ExecutionStatus):
         _ExecutionStatus.__init__(self, parent, exit_on_failure_mode,
                                   exit_on_error_mode,
                                   skip_teardown_on_exit_mode)
+        self.skipped = False
 
     def _my_message(self):
         return SuiteMessage(self).message
+
+    @property
+    def status(self):
+        if self.skipped:
+            return 'SKIP'
+        return _ExecutionStatus.status(self)
 
 
 class TestStatus(_ExecutionStatus):
