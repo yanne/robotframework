@@ -13,7 +13,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from robot.errors import ExecutionFailed, PassExecution
+from robot.errors import ExecutionFailed, PassExecution, SkipExecution
 from robot.utils import html_escape, py2to3, unic
 
 
@@ -139,6 +139,8 @@ class TestStatus(_ExecutionStatus):
         self._critical = critical
 
     def test_failed(self, failure):
+        if failure and isinstance(failure, SkipExecution):
+            self._critical = False
         self.failure.test = unic(failure)
         self.exit.failure_occurred(failure, self._critical)
 
