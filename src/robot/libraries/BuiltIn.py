@@ -529,7 +529,7 @@ class _Verify(_BuiltInBase):
         self._set_and_remove_tags(tags)
         raise AssertionError(msg) if msg else AssertionError()
 
-    def skip(self, msg=None):
+    def skip(self, msg='Test skipped'):
         raise SkipExecution(msg)
 
     def fatal_error(self, msg=None):
